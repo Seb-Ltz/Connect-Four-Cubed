@@ -1,11 +1,3 @@
-//
-//  StateMenu.cpp
-//  Four Connect
-//
-//  Created by Sébastien Letzelter on 26.04.19.
-//  Copyright © 2019 Sébastien Letzelter. All rights reserved.
-//
-
 #include <iostream>
 #include "StateMenu.hpp"
 #include "StateBase.hpp"

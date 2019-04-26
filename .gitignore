@@ -4,3 +4,9 @@
 *.idea
 
 .idea/
+
+bin/
+obj/
+*.layout
+*.depend
+*.cbp
