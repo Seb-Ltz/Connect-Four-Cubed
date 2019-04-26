@@ -2,3 +2,5 @@
 *.DS_Store
 *.plist
 *.idea
+
+.idea/
