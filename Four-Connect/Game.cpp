@@ -5,13 +5,19 @@
 
 Game::Game()
     //Init the sfml window
-    : window(sf::VideoMode(800, 600), "SFML window")
+    : window(sf::VideoMode(800, 800), "SFML window")
 {
 
 }
 
 void Game::run()
 {
+    window.setVerticalSyncEnabled(true);
+    //Temporary for 3D testing
+    sf::View v = window.getView();
+    v.setCenter(sf::Vector2f());
+    v.setSize(sf::Vector2f(2, 2));
+    window.setView(v);
     //init current state
     currentState = new StateMenu(this);
 

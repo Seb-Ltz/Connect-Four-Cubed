@@ -4,11 +4,11 @@
 
 #include <cmath>
 
-std::vector<Sphere3D> Renderer3D::getCirclesReadyToDraw(Board& board, float rotationY, float rotationZ, float cameraX)
+std::vector<Sphere3D> Renderer3D::getCirclesReadyToDraw(Board& board, float rotationY, float rotationZ, float cameraX, float cameraY)
 {
     auto spheres = boardTo3DSpheres(board);
     rotateSphereList(spheres, rotationY, rotationZ);
-    applyCameraPos(spheres, cameraX);
+    applyCameraPos(spheres, cameraX, cameraY);
     applyPerspective(spheres);
     sortByDepth(spheres);
     return spheres;
@@ -25,11 +25,11 @@ std::vector<Sphere3D> Renderer3D::boardTo3DSpheres(Board& board)
         Board::Sphere sphere = board.getSphere(x, z, y);
         if (sphere == Board::Sphere::RedSphere)
         {
-            spheres.push_back(Sphere3D(sf::Color::Red, sf::Vector3f(x - 2, .9f * y, z - 2)));
+            spheres.push_back(Sphere3D(sf::Color::Red, sf::Vector3f(-1.5f + x, .9f * y, -1.5f + z)));
         }
         if (sphere == Board::Sphere::GreenSphere)
         {
-            spheres.push_back(Sphere3D(sf::Color::Green, sf::Vector3f(x - 2, .9f * y, z - 2)));
+            spheres.push_back(Sphere3D(sf::Color::Green, sf::Vector3f(-1.5f + x, .9f * y, -1.5f + z)));
         }
     }
 
@@ -42,28 +42,32 @@ void Renderer3D::rotateSphereList(std::vector<Sphere3D>& spheres, float rotation
     {
         //https://www.siggraph.org/education/materials/HyperGraph/modeling/mod_tran/3drota.htm
         //Y axis
-        sf::Vector3f newPos
-        (
-            sphere.position.z * sin(rotationY) + sphere.position.x * cos(rotationY),
-            sphere.position.y,
-            sphere.position.z * cos(rotationY) - sphere.position.x * sin(rotationY)
-        );
-        sphere.position = newPos;
+        {
+            sf::Vector3f newPos
+            (
+                sphere.position.z * sin(rotationY) + sphere.position.x * cos(rotationY),
+                sphere.position.y,
+                sphere.position.z * cos(rotationY) - sphere.position.x * sin(rotationY)
+            );
+            sphere.position = newPos;
+        }
         //Z axis
-        newPos = sf::Vector3f
-        (
-            sphere.position.x * cos(rotationZ) - sphere.position.y * cos(rotationY),
-            sphere.position.x * sin(rotationZ) - sphere.position.y * cos(rotationZ),
-            sphere.position.z
-        );
-        sphere.position = newPos;
+        {
+            sf::Vector3f newPos
+            (
+                sphere.position.x * cos(rotationZ) - sphere.position.y * sin(rotationZ),
+                sphere.position.x * sin(rotationZ) + sphere.position.y * cos(rotationZ),
+                sphere.position.z
+            );
+            sphere.position = newPos;
+        }
     }
 }
 
-void Renderer3D::applyCameraPos(std::vector<Sphere3D>& spheres, float cameraX)
+void Renderer3D::applyCameraPos(std::vector<Sphere3D>& spheres, float cameraX, float cameraY)
 {
     for (Sphere3D& sphere : spheres)
-        sphere.position -= sf::Vector3f(cameraX, 0, 0);
+        sphere.position += sf::Vector3f(cameraX, -cameraY, 0);
 }
 
 void Renderer3D::applyPerspective(std::vector<Sphere3D>& spheres)
@@ -88,5 +92,5 @@ void Renderer3D::sortByDepth(std::vector<Sphere3D>& spheres)
 
 bool Renderer3D::compareDepth(Sphere3D a, Sphere3D b)
 {
-    return (a.position.x < b.position.x);
+    return (a.position.x > b.position.x);
 }

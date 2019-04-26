@@ -28,5 +28,6 @@ class StateGame : public StateBase
         Board board;
         float rotationY = 0.f, rotationZ = 0.f;
         static const float CAMERA_DISTANCE;
+        static const float CAMERA_HEIGHT;
 
 };

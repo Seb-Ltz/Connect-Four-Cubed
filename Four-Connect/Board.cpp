@@ -28,7 +28,7 @@ void Board::reset()
     for (int z = 0; z < DIM_Z; z++)
     for (int y = 0; y < DIM_Y; y++)
     {
-        m_spheres[x * DIM_Z * DIM_Y + z * DIM_Y + y] = Sphere::NoSphere;
+        m_spheres[x * DIM_Z * DIM_Y + z * DIM_Y + y] = Sphere::RedSphere;
     }
 }
 
