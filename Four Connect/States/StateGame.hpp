@@ -10,7 +10,7 @@ class StateGame : public StateBase
         /**
          * Inits the assets for the state
          */
-        StateGame();
+        StateGame(Game *game);
 
         void handleEvents(sf::Event event) override;
 
@@ -18,7 +18,10 @@ class StateGame : public StateBase
 
         void render(sf::RenderWindow &window) override;
 
+        virtual ~StateGame();
+
     private:
+
         sf::CircleShape circle;
 
 };

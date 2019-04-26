@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Game.hpp"
 #include "StateGame.hpp"
+#include "StateMenu.hpp"
 
 Game::Game()
     //Init the sfml window
@@ -12,7 +13,7 @@ Game::Game()
 void Game::run()
 {
     //init current state
-    currentState = new StateGame();
+    currentState = new StateMenu(this);
 
     //Clock for the dt
     sf::Clock clk = sf::Clock();
@@ -53,4 +54,16 @@ void Game::run()
         window.display();
     }
 
+
+}
+
+void Game::setCurrentState(StateBase *newState)
+{
+    delete currentState;
+    currentState = newState;
+}
+
+Game::~Game()
+{
+    delete currentState;
 }
