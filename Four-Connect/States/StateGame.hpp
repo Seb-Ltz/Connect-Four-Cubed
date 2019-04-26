@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include "StateBase.hpp"
+#include "../Board.h"
 
 class StateGame : public StateBase
 {
@@ -23,5 +24,9 @@ class StateGame : public StateBase
     private:
 
         sf::CircleShape circle;
+
+        Board board;
+        float rotationY = 0.f, rotationZ = 0.f;
+        static const float CAMERA_DISTANCE;
 
 };

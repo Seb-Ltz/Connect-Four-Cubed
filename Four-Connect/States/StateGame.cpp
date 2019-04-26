@@ -1,6 +1,10 @@
 #include <iostream>
 #include "StateGame.hpp"
 
+#include "../3D-Objects/Renderer3D.h"
+
+const float StateGame::CAMERA_DISTANCE = 6.f;
+
 StateGame::StateGame(Game *game)
     : StateBase(game)
     , circle(50)
@@ -21,6 +25,7 @@ void StateGame::update(float dt)
 
 void StateGame::render(sf::RenderWindow &window)
 {
+    auto circles = Renderer3D::getCirclesReadyToDraw(board, rotationY, rotationZ, CAMERA_DISTANCE);
     window.draw(circle);
 }
 
