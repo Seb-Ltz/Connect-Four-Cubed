@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdio.h>
-#include "StateBase.hpp"
+#include "States/StateBase.hpp"
 
 class Game
 {

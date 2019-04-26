@@ -2,7 +2,7 @@
 #include "StateMenu.hpp"
 #include "StateBase.hpp"
 #include "StateGame.hpp"
-#include "Game.hpp"
+#include "../Game.hpp"
 
 StateMenu::StateMenu(Game *game) : StateBase(game)
 {

@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Game.hpp"
-#include "StateGame.hpp"
-#include "StateMenu.hpp"
+#include "States/StateGame.hpp"
+#include "States/StateMenu.hpp"
 
 Game::Game()
     //Init the sfml window

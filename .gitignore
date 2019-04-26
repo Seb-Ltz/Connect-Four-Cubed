@@ -10,3 +10,4 @@ obj/
 *.layout
 *.depend
 *.cbp
+*.dll
