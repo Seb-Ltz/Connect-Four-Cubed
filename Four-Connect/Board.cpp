@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Board.h"
 
 const int Board::DIM_X = 4;
@@ -67,6 +68,12 @@ Board::DropResult Board::dropSphere(int x, int z, PlayerColor color)
 
     int y = 3; //CALCULATE THE PLACE TO PUT THE SPHERE
 
+    //Save the sphere that got dropped
+    if(color == PlayerColor::PlayerRed)
+        setSphereAt(x, z, y, Sphere::RedSphere);
+    if(color == PlayerColor::PlayerGreen)
+        setSphereAt(x, z, y, Sphere::GreenSphere);
+
     m_sphereCount++;
 
     if (checkConnection(x, z, y))
@@ -80,7 +87,15 @@ Board::Sphere* const Board::getColumn(int x, int z) const
     if (x < 0 || z < 0 || x >= DIM_X || z >= DIM_Z)
         return nullptr; //Out of bounds
 
-    return m_spheres + x * DIM_Z * DIM_Y + z * DIM_Y;
+//    return m_spheres + x * DIM_Z * DIM_Y + z * DIM_Y;
+    std::cout << x << " - " << z << " :  = ";
+    for(int i = 0; i < m_maxSpheres; i++) {
+        std::cout << *(m_spheres + i) << " ";
+    }
+    std::cout << std::endl;
+
+    return m_spheres + x + oDIM_X * (DIM_Z * z);
+    //x + WIDTH * (y + DEPTH * z)
 }
 
 Board::Sphere Board::getSphere(int x, int z, int y) const
@@ -97,6 +112,10 @@ bool Board::checkConnection(int x, int z, int y) const
 {
     //TODO: Check if a sphere placed at theres coordinates causes a win
     return false;
+}
+
+void Board::setSphereAt(int x, int z, int y, Sphere sphere) {
+    m_spheres[x * DIM_Z * DIM_Y + z * DIM_Y] = sphere;
 }
 
 
