@@ -22,9 +22,9 @@ void StateGame::update(float dt)
 {
     rotationY += dt * 0.5;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        rotationZ += dt * 0.2;
+        rotationZ += dt * 0.5;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        rotationZ -= dt * 0.2;
+        rotationZ -= dt * 0.5;
 }
 
 void StateGame::render(sf::RenderWindow &window)
