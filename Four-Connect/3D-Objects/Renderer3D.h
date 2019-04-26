@@ -25,4 +25,6 @@ class Renderer3D
         static void applyCameraPos(std::vector<Sphere3D>& spheres, float cameraX);
         static void applyPerspective(std::vector<Sphere3D>& spheres);
         static void sortByDepth(std::vector<Sphere3D>& spheres);
+
+        static bool compareDepth(Sphere3D a, Sphere3D b);
 };

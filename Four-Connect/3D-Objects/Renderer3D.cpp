@@ -2,6 +2,8 @@
 
 #include "../Board.h"
 
+#include <cmath>
+
 std::vector<Sphere3D> Renderer3D::getCirclesReadyToDraw(Board& board, float rotationY, float rotationZ, float cameraX)
 {
     auto spheres = boardTo3DSpheres(board);
@@ -36,20 +38,55 @@ std::vector<Sphere3D> Renderer3D::boardTo3DSpheres(Board& board)
 
 void Renderer3D::rotateSphereList(std::vector<Sphere3D>& spheres, float rotationY, float rotationZ)
 {
-
+    for (Sphere3D& sphere : spheres)
+    {
+        //https://www.siggraph.org/education/materials/HyperGraph/modeling/mod_tran/3drota.htm
+        //Y axis
+        sf::Vector3f newPos
+        (
+            sphere.position.z * sin(rotationY) + sphere.position.x * cos(rotationY),
+            sphere.position.y,
+            sphere.position.z * cos(rotationY) - sphere.position.x * sin(rotationY)
+        );
+        sphere.position = newPos;
+        //Z axis
+        newPos = sf::Vector3f
+        (
+            sphere.position.x * cos(rotationZ) - sphere.position.y * cos(rotationY),
+            sphere.position.x * sin(rotationZ) - sphere.position.y * cos(rotationZ),
+            sphere.position.z
+        );
+        sphere.position = newPos;
+    }
 }
 
 void Renderer3D::applyCameraPos(std::vector<Sphere3D>& spheres, float cameraX)
 {
-
+    for (Sphere3D& sphere : spheres)
+        sphere.position -= sf::Vector3f(cameraX, 0, 0);
 }
 
 void Renderer3D::applyPerspective(std::vector<Sphere3D>& spheres)
 {
-
+    for (Sphere3D& sphere : spheres)
+    {
+        sf::Vector3f newPos
+        (
+            sphere.position.x,
+            sphere.position.y / sphere.position.x,
+            sphere.position.z / sphere.position.x
+        );
+        sphere.position = newPos;
+        sphere.diameter /= sphere.position.x;
+    }
 }
 
 void Renderer3D::sortByDepth(std::vector<Sphere3D>& spheres)
 {
+    std::sort(spheres.begin(), spheres.end(), compareDepth);
+}
 
+bool Renderer3D::compareDepth(Sphere3D a, Sphere3D b)
+{
+    return (a.position.x < b.position.x);
 }
