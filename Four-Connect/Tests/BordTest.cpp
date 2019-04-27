@@ -107,11 +107,17 @@ void BordTest::debugTest()
     Board board;
 
     board.dropSphere(0, 0, Board::PlayerColor::PlayerRed);
-    board.dropSphere(0, 0, Board::PlayerColor::PlayerRed);
+    board.dropSphere(0, 0, Board::PlayerColor::PlayerGreen);
+//    board.dropSphere(0, 0, Board::PlayerColor::PlayerRed);
+//    board.dropSphere(1, 0, Board::PlayerColor::PlayerRed);
 
-    if (board.getSphere(0, 0, 0) == Board::Sphere::RedSphere) {
+    if (board.getSphere(0, 0, 1) == Board::Sphere::RedSphere) {
         std::cout << "Red sphere found" << std::endl;
-    } else {
+    }
+    if (board.getSphere(0, 0, 1) == Board::Sphere::GreenSphere) {
+        std::cout << "Green sphere found" << std::endl;
+    }
+    else {
         std::cerr << "No red sphere found" << std::endl;
     }
 }

@@ -66,13 +66,18 @@ Board::DropResult Board::dropSphere(int x, int z, PlayerColor color)
     if (!isThereSpace(x, z))
         return DropResult::NotEnoughSpace;
 
-    int y = 3; //CALCULATE THE PLACE TO PUT THE SPHERE
+    //Get the y : highest position smaller than DIM_Y that has no Sphere
+    int y = 0;
+    for(; y < DIM_Y && getSphere(x, z, y) != NoSphere; y++);
 
     //Save the sphere that got dropped
     if(color == PlayerColor::PlayerRed)
         setSphereAt(x, z, y, Sphere::RedSphere);
     if(color == PlayerColor::PlayerGreen)
         setSphereAt(x, z, y, Sphere::GreenSphere);
+
+    //Change the player turn
+    m_playerTurn = m_playerTurn == PlayerRed ? PlayerGreen : PlayerRed;
 
     m_sphereCount++;
 
@@ -87,15 +92,7 @@ Board::Sphere* const Board::getColumn(int x, int z) const
     if (x < 0 || z < 0 || x >= DIM_X || z >= DIM_Z)
         return nullptr; //Out of bounds
 
-//    return m_spheres + x * DIM_Z * DIM_Y + z * DIM_Y;
-    std::cout << x << " - " << z << " :  = ";
-    for(int i = 0; i < m_maxSpheres; i++) {
-        std::cout << *(m_spheres + i) << " ";
-    }
-    std::cout << std::endl;
-
-    return m_spheres + x + oDIM_X * (DIM_Z * z);
-    //x + WIDTH * (y + DEPTH * z)
+    return m_spheres + DIM_X * (x + DIM_Z * z);
 }
 
 Board::Sphere Board::getSphere(int x, int z, int y) const
@@ -115,7 +112,8 @@ bool Board::checkConnection(int x, int z, int y) const
 }
 
 void Board::setSphereAt(int x, int z, int y, Sphere sphere) {
-    m_spheres[x * DIM_Z * DIM_Y + z * DIM_Y] = sphere;
+    //Save the sphere to the array
+    m_spheres[(y) + DIM_X * (x + DIM_Z * z)] = sphere;
 }
 
 

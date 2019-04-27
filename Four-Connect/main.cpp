@@ -7,8 +7,8 @@ int main(int, char const**)
 {
     //Test the bord
     BordTest bordTest;
-//    bordTest.init();
-    bordTest.debugTest();
+    bordTest.init();
+//    bordTest.debugTest();
 
     Game game;
     game.run();
