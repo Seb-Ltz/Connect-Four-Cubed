@@ -20,6 +20,8 @@ class Game
          */
          void setCurrentState(StateBase *newState);
 
+         inline sf::RenderWindow& getWindow() { return window; }
+
     virtual ~Game();
 
 private:

@@ -21,8 +21,9 @@ class Renderer3D
 
     private:
         static std::vector<Sphere3D> boardTo3DSpheres(Board& board);
+        static void applyCameraHeight(std::vector<Sphere3D>& spheres, float cameraY);
         static void rotateSphereList(std::vector<Sphere3D>& spheres, float rotationY, float rotationZ);
-        static void applyCameraPos(std::vector<Sphere3D>& spheres, float cameraX, float cameraY);
+        static void applyCameraDistance(std::vector<Sphere3D>& spheres, float cameraX);
         static void applyPerspective(std::vector<Sphere3D>& spheres);
         static void sortByDepth(std::vector<Sphere3D>& spheres);
 

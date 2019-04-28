@@ -28,7 +28,7 @@ void Board::reset()
     for (int z = 0; z < DIM_Z; z++)
     for (int y = 0; y < DIM_Y; y++)
     {
-        m_spheres[x * DIM_Z * DIM_Y + z * DIM_Y + y] = Sphere::RedSphere;
+        m_spheres[x * DIM_Z * DIM_Y + z * DIM_Y + y] = Sphere::NoSphere;
     }
 }
 
@@ -65,9 +65,23 @@ Board::DropResult Board::dropSphere(int x, int z, PlayerColor color)
     if (!isThereSpace(x, z))
         return DropResult::NotEnoughSpace;
 
-    int y = 3; //CALCULATE THE PLACE TO PUT THE SPHERE
+    int y = 0;
+
+    for (; y < DIM_Y; y++)
+        if (!m_spheres[y + x * DIM_Z * DIM_Y + z * DIM_Y])
+        {
+            m_spheres[y + x * DIM_Z * DIM_Y + z * DIM_Y] = (Sphere)color;
+            break;
+        }
 
     m_sphereCount++;
+
+    if (m_playerTurn == PlayerColor::PlayerRed)
+    {
+        m_playerTurn = PlayerColor::PlayerGreen;
+    }
+    else
+        m_playerTurn = PlayerColor::PlayerRed;
 
     if (checkConnection(x, z, y))
         return DropResult::DroppedAndVictory;

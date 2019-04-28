@@ -11,7 +11,7 @@ StateMenu::StateMenu(Game *game) : StateBase(game)
 
 void StateMenu::handleEvents(sf::Event event)
 {
-    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::X)
+    if (/*event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::X*/true)
     {
         std::cout << "CHANGING STATE" << std::endl;
         game->setCurrentState(new StateGame(game));

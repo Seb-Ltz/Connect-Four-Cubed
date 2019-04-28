@@ -7,8 +7,9 @@
 std::vector<Sphere3D> Renderer3D::getCirclesReadyToDraw(Board& board, float rotationY, float rotationZ, float cameraX, float cameraY)
 {
     auto spheres = boardTo3DSpheres(board);
+    applyCameraHeight(spheres, cameraY);
     rotateSphereList(spheres, rotationY, rotationZ);
-    applyCameraPos(spheres, cameraX, cameraY);
+    applyCameraDistance(spheres, cameraX);
     applyPerspective(spheres);
     sortByDepth(spheres);
     return spheres;
@@ -18,6 +19,12 @@ std::vector<Sphere3D> Renderer3D::boardTo3DSpheres(Board& board)
 {
     std::vector<Sphere3D> spheres;
 
+    //Corners
+    spheres.push_back(Sphere3D(0, sf::Vector3f(-4, 0, -4)));
+    spheres.push_back(Sphere3D(1, sf::Vector3f(4, 0, -4)));
+    spheres.push_back(Sphere3D(2, sf::Vector3f(4, 0, 4)));
+    spheres.push_back(Sphere3D(3, sf::Vector3f(-4, 0, 4)));
+    //Spheres
     for (int x = 0; x < board.DIM_X; x++)
     for (int z = 0; z < board.DIM_Z; z++)
     for (int y = 0; y < board.DIM_Y; y++)
@@ -32,8 +39,20 @@ std::vector<Sphere3D> Renderer3D::boardTo3DSpheres(Board& board)
             spheres.push_back(Sphere3D(sf::Color::Green, sf::Vector3f(-1.5f + x, .9f * y, -1.5f + z)));
         }
     }
+    //Clickables
+    for (int x = 0; x < board.DIM_X; x++)
+    for (int z = 0; z < board.DIM_Z; z++)
+    {
+        spheres.push_back(Sphere3D(sf::Vector2i(x, z), sf::Vector3f(-1.5f + x, board.DIM_Y * .9f, -1.5f + z)));
+    }
 
     return spheres;
+}
+
+void Renderer3D::applyCameraHeight(std::vector<Sphere3D>& spheres, float cameraY)
+{
+    for (Sphere3D& sphere : spheres)
+        sphere.position += sf::Vector3f(0, -cameraY, 0);
 }
 
 void Renderer3D::rotateSphereList(std::vector<Sphere3D>& spheres, float rotationY, float rotationZ)
@@ -64,10 +83,10 @@ void Renderer3D::rotateSphereList(std::vector<Sphere3D>& spheres, float rotation
     }
 }
 
-void Renderer3D::applyCameraPos(std::vector<Sphere3D>& spheres, float cameraX, float cameraY)
+void Renderer3D::applyCameraDistance(std::vector<Sphere3D>& spheres, float cameraX)
 {
     for (Sphere3D& sphere : spheres)
-        sphere.position += sf::Vector3f(cameraX, -cameraY, 0);
+        sphere.position += sf::Vector3f(cameraX, 0, 0);
 }
 
 void Renderer3D::applyPerspective(std::vector<Sphere3D>& spheres)
