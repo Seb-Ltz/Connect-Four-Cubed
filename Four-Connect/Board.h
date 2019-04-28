@@ -111,4 +111,12 @@ private:
      * @return True if there's a connect-4 in any direction
      */
     bool checkConnection(int x, int z, int y) const;
+
+    /**
+     * Sets the sphere at a certain position in the array
+     * @param x The x coordinate where to place the ball
+     * @param z The z coordinate where to place the ball
+     * @param y The y coordinate where to place the ball
+     */
+    void setSphereAt(int x, int z, int y, Sphere sphere);
 };

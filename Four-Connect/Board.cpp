@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Board.h"
 
 const int Board::DIM_X = 4;
@@ -112,5 +113,4 @@ bool Board::checkConnection(int x, int z, int y) const
     //TODO: Check if a sphere placed at theres coordinates causes a win
     return false;
 }
-
 
